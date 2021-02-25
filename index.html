@@ -5,24 +5,23 @@
   <p> Select your colour from this random image! </p>
 </div>
 
-
 <div class="center">
-  <img id="image" src="" alt="Random photo">
+  <canvas id="myCanvas" width="500" height="250">
+  </canvas>
 </div>
 
-
 <div class="buttonGrp">
-  <button id="button1" type="button" onclick="newPic()">Generate Random Picture</button>
+  <button id="button1" type="button" onclick="newPicV2()">Generate Random Picture</button>
 </div>
 
 <div class="center font">
   <p> Your Colour is: </p>
-  <h1> #FFFFFF </h1>
+  <h1 class = "viewColour"> <input type="text"></input> </h1>
 </div>
 
 <!-- CSS -->
 <style>
-h1 {
+.viewColour {
   color: rgb(255, 0, 0);
 }
 
@@ -40,24 +39,63 @@ h1 {
 
 <!-- JAVASCRIPT -->
 <script>
-const gDrive = "https://drive.google.com/uc?id=";
-var img0 = "1Re_Uz2pZOMd-jx8pUoEoUl9PnvDn4Qe3"; //0 ganyu
-var img1 = "12QJ7xLxXyJjALzxoYc-NSEFS_61kIA96"; //1 yui borger
-var img2 = "17oMn13Gcci9Dp34EqMQBZel21u7S2Zij"; //2 scream
-var img3 = "1cBg5S40VtcuTiiVScq23SS-wPj-kma4F"; //3 cadets
-var img4 = "19h3TJprVSPaoGZFdy1lm9a2tvsey14T4"; //4 doge
-var img5 = "15OgIROgUtDJRAxMm-vkmv9-TjUzx29Kz"; //5 bird
-var img6 = "19nPgkNUXEst9I1jRN8c_vGtNwAUf1ndD"; //6 keqing
-var img7 = "1oznr9mSy6MHa4TEGx7vfEZlUNwNDTts4"; //7 pikachu
+
+//Images
+const path = "C:/Users/wilso/Documents/GitHub/INTD219/Images/"
+var img0 = "ganyu.jpg"; //0 ganyu
+var img1 = "burger.jpg"; //1 yui borger
+var img2 = "scream.jpg"; //2 scream
+var img3 = "cadets.jpg"; //3 cadets
+var img4 = "doge.jpg"; //4 doge
+var img5 = "bird.jpg"; //5 bird
+var img6 = "keqing.jpg"; //6 keqing
+var img7 = "pikachu.jpg"; //7 pikachu
 
 const rndImages = [img0, img1, img2, img3, img4, img5, img6, img7];
 
-window.onload = () => newPic(rndImages);
+window.onload = () => newPicV2(rndImages); //\new image when page loads/reloads
 
-function newPic()
+var imageObj = new Image();
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+var img = document.getElementById("image")
+
+//generate a new image when clicking button
+function newPicV2()
 {
-  const random = Math.floor(Math.random() * rndImages.length);
-  console.log(random, rndImages[random]); //logs in the console which image is showing
-  
-  image.setAttribute("src", gDrive + rndImages[random]);
+  const random = Math.floor(Math.random()* rndImages.length);
+  console.log(random, rndImages[random]);
+  imageObj.src = path + rndImages[random];
+  imageObj.onload = function()
+  {
+    var imgW = (c.width - this.width) / 2;
+    var imgH = (c.height - this.height) / 2;
+    ctx.drawImage(imageObj,imgW, imgH);
+  }
+  ctx.clearRect(0, 0, c.width, c.height);
 }
+
+//Colour Pick
+var viewColour = document.querySelector()
+
+
+imgData = ctx.getImageData(0, 0, imgW, imgH)
+var pixels = imgData.data;
+var thisRBG;
+var thisRBGRy;
+
+c.addEventListener("mousemove",function(e))
+{
+  var m = mousePos(c, e);
+
+  var i = (m.x +m.y * imgW) * 4;
+  var R = pixels[i];
+  var G = pixels[i + 1];
+  var B = pixels[i + 2];
+  thisRGBRy = [R, G, B];
+  thisRGB = display_rgb(thisRGB);
+  viewColour.style.color = thisRGB
+}
+
+
+</script>
