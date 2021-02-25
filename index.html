@@ -1,36 +1,47 @@
 
 <!-- HMTL -->
-<div class="font center">
+<div class="title">
   <h1> Random Colour Picker! </h1>
   <p> Select your colour from this random image! </p>
 </div>
 
-<div class="center">
-  <canvas id="myCanvas" width="500" height="250">
-  </canvas>
+<div class="thumbnail">
+  <canvas id="myCanvas" width="500" height="250"></canvas>
+  <div id="status"></div>
 </div>
 
 <div class="buttonGrp">
   <button id="button1" type="button" onclick="newPicV2()">Generate Random Picture</button>
 </div>
 
-<div class="center font">
+<div class="title">
   <p> Your Colour is: </p>
-  <h1 class = "viewColour"> <input type="text"></input> </h1>
 </div>
+
+<div class="viewColour">
+  <h1>#FFFFFF</h1>
+</div>
+
+
 
 <!-- CSS -->
 <style>
+.title {
+  font-family: cursive;
+  text-align: center;
+}
+
+.thumbnail {
+  text-align: center;
+}
+
 .viewColour {
+  font-family: cursive;
+  text-align: center;
   color: rgb(255, 0, 0);
 }
 
-.font {
-  font-family: cursive;
-}
-.center {
-  text-align: center;
-}
+
 
 .buttonGrp {
   text-align: center;
@@ -56,9 +67,12 @@ const rndImages = [img0, img1, img2, img3, img4, img5, img6, img7];
 window.onload = () => newPicV2(rndImages); //\new image when page loads/reloads
 
 var imageObj = new Image();
+
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 var img = document.getElementById("image")
+
+
 
 //generate a new image when clicking button
 function newPicV2()
@@ -71,31 +85,29 @@ function newPicV2()
     var imgW = (c.width - this.width) / 2;
     var imgH = (c.height - this.height) / 2;
     ctx.drawImage(imageObj,imgW, imgH);
+
   }
   ctx.clearRect(0, 0, c.width, c.height);
 }
 
+
 //Colour Pick
-var viewColour = document.querySelector()
 
-
-imgData = ctx.getImageData(0, 0, imgW, imgH)
-var pixels = imgData.data;
-var thisRBG;
-var thisRBGRy;
-
-c.addEventListener("mousemove",function(e))
+function mousePos(c, event) //gives the mouse pos pixel
 {
-  var m = mousePos(c, e);
-
-  var i = (m.x +m.y * imgW) * 4;
-  var R = pixels[i];
-  var G = pixels[i + 1];
-  var B = pixels[i + 2];
-  thisRGBRy = [R, G, B];
-  thisRGB = display_rgb(thisRGB);
-  viewColour.style.color = thisRGB
+  const rect = c.getBoundingClientRect();
+  x = Math.round(event.clientX - rect.left);
+  y = Math.round(event.clientY - rect.top);
+  console.log(x, y);
 }
+
+c.addEventListener("click", function(e)
+{
+  mousePos(c, e);
+  var imgData = ctx.getImageData(0, 0, c.width, c.height);
+})
+
+
 
 
 </script>
