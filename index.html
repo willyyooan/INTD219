@@ -19,7 +19,8 @@
 </div>
 
 <div class="viewColour">
-  <h1 id="demo"></h1>
+  <h1 id="getHex">#000000</h1>
+  <canvas id="colourPre" width="250" height="50" style="border:1px solid #d3d3d3;"></canvas>
 </div>
 
 
@@ -38,7 +39,6 @@
 .viewColour {
   font-family: cursive;
   text-align: center;
-  color: rgb(255, 0, 0);
 }
 
 
@@ -108,7 +108,12 @@ function mousePos(c, event) //gives the mouse pos pixel
   var p = ctx.getImageData(x, y, 1, 1).data; 
   var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6); //takes the function above and converts it to HEX
   console.log(hex);
-  document.getElementById("demo").innerHTML = hex;
+  document.getElementById("getHex").innerHTML = hex;
+
+  var colPre = document.getElementById("colourPre");
+  var ctxPre = colPre.getContext("2d");
+  ctxPre.fillStyle = hex;
+  ctxPre.fillRect(0, 0, colPre.width, colPre.height);
 }
 
 
